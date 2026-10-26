@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dark Pill settings</title>
+  <style>
+    :root {
+      --bg: #f6f6f5; --card: #ffffff; --text: #1b1b1b; --muted: #6b6b6b;
+      --line: #e4e4e2; --accent: #2f2f2f; --danger: #c43d3d;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0f0f0f; --card: #171717; --text: #ececec; --muted: #9a9a9a; --line: #2a2a2a; --accent: #e9e9e9; --danger: #ff8080; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 620px; margin: 0 auto; padding: 32px 16px 48px; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    .sub { color: var(--muted); margin: 0 0 24px; }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 18px; margin-bottom: 16px; }
+    h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 0 4px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+    h2 + .row { border-top: 0; }
+    .row small { display: block; color: var(--muted); font-size: 12.5px; }
+    select, button { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+    button:hover, select:hover { border-color: var(--muted); }
+    input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex: none; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+    li:first-child { border-top: 0; }
+    .empty { color: var(--muted); padding: 10px 0 14px; }
+    .tag { font-size: 12px; color: var(--muted); margin-left: 8px; }
+    .link { background: none; border: 0; padding: 0; color: var(--text); text-decoration: underline; }
+    .warn { color: var(--danger); }
+    #saved { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 6px 14px; border-radius: 999px; font-size: 13px; opacity: 0; transition: opacity .2s; }
+    #saved.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Dark Pill</h1>
+  <p class="sub">The floating pill on every page: light/dark, refresh, clear cache, close.</p>
+
+  <section>
+    <h2>Pill</h2>
+    <div class="row">
+      <label for="showPill">Show the pill on every page<small>Closing it with × hides it only on that tab.</small></label>
+      <input type="checkbox" id="showPill">
+    </div>
+    <div class="row">
+      <span>Pill position<small>Drag the pill anywhere; it remembers.</small></span>
+      <button id="resetPos" type="button">Reset to bottom-right</button>
+    </div>
+    <div class="row">
+      <span>Keyboard shortcuts<small>Alt+Shift+D show/hide pill · Alt+Shift+N toggle dark</small></span>
+      <button id="shortcuts" type="button">Change</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dark mode</h2>
+    <div class="row">
+      <label for="defaultMode">Default for sites you haven't set<small>Each site remembers your own choice.</small></label>
+      <select id="defaultMode">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+  </section>
+
+  <section>
+    <h2>Clear cache button</h2>
+    <div class="row">
+      <label for="cacheScope">What to clear<small>Then the page hard-reloads.</small></label>
+      <select id="cacheScope">
+        <option value="site">This site's cache only</option>
+        <option value="all">Entire browser cache</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="clearStorage">Also clear this site's local storage &amp; IndexedDB</label>
+      <input type="checkbox" id="clearStorage">
+    </div>
+    <div class="row">
+      <label for="clearCookies">Also clear this site's cookies<small class="warn">This will log you out of the site.</small></label>
+      <input type="checkbox" id="clearCookies">
+    </div>
+  </section>
+
+  <section>
+    <h2>Sites with a saved choice</h2>
+    <ul id="sites"></ul>
+  </section>
+</main>
+<div id="saved" role="status">Saved</div>
+<script src="options.js"></script>
+</body>
+</html>
